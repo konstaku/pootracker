@@ -6,7 +6,7 @@ import {
     removePoolFromDatabase,
     retrievePoolsFromDatabase,
 } from './db.js';
-import { formatMessage} from './format.js';
+import { formatMessage } from './format.js';
 
 const token = '6272930700:AAHwYpqBoXPWpA_apNoBABptdQ-asNfLAQM';
 export const bot = new TelegramBot(token);
@@ -73,12 +73,18 @@ async function handleMenuChioce(msg) {
 
     if (text.toLowerCase() == 'view pool stats') {
         const userPools = await retrievePoolsFromDatabase(chatId.toString());
-        const fetchData = Object.entries(userPools).flatMap(([chain, pools]) => {
-            return pools.map(pool => ({ chain, pool }));
-        });
+        const fetchData = Object.entries(userPools).flatMap(
+            ([chain, pools]) => {
+                return pools.map(pool => ({ chain, pool }));
+            }
+        );
         console.log('fetchData:', fetchData);
 
-        const promises = fetchData.map(el => fetch(`https://api.dexscreener.com/latest/dex/pairs/${el.chain}/${el.pool}`));
+        const promises = fetchData.map(el =>
+            fetch(
+                `https://api.dexscreener.com/latest/dex/pairs/${el.chain}/${el.pool}`
+            )
+        );
         const responses = await Promise.all(promises);
         const data = await Promise.all(responses.map(el => el.json()));
 

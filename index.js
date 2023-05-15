@@ -12,11 +12,10 @@ async function main() {
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);
         });
-        
     } catch (err) {
         console.log('Error in main:', err);
     } finally {
-    //    await client.close();
+        //    await client.close();
     }
 }
 

@@ -15,7 +15,9 @@ export function formatMessage(data) {
         const vol24 = info.volume.h24;
         const url = info.url;
 
-        message += `${index++}: <a href="${url}">${pair}</a> on ${dex} (${chain}):\nTVL: ${Math.round(tvl)}\nVol:${Math.round(vol24)}\n\n`;
+        message += `${index++}: <a href="${url}">${pair}</a> on ${dex} (${chain}):\nTVL: ${Math.round(
+            tvl
+        )}\nVol: ${Math.round(vol24)}\n\n`;
     }
 
     return message;
