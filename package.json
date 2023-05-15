@@ -1,5 +1,6 @@
 {
   "name": "pootracker",
+  "type": "module",
   "version": "0.0.1",
   "description": "An app to track liquidity pools on various blockchains",
   "main": "index.js",
