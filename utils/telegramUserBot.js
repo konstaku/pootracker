@@ -9,7 +9,16 @@ import {
 import { formatMessage} from './format.js';
 
 const token = '6272930700:AAHwYpqBoXPWpA_apNoBABptdQ-asNfLAQM';
-export const bot = new TelegramBot(token, { polling: true });
+export const bot = new TelegramBot(token);
+
+if (bot.isPolling()) {
+    console.log('Bot is polling');
+    bot.stopPolling();
+    console.log('Stopped polling');
+} else {
+    bot.startPolling();
+    console.log('Started polling');
+}
 
 bot.onText(/\/go/, async msg => {
     const chatId = msg.chat.id;
