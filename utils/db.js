@@ -19,8 +19,8 @@ export async function addPoolToDatabase(record) {
                 _id: id,
                 pools: {
                     ethereum: [],
-                    optimism: [],
                     arbitrum: [],
+                    optimism: [],
                     polygon: [],
                     bsc: [],
                 },
