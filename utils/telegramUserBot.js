@@ -20,9 +20,9 @@ if (bot.isPolling()) {
     console.log('Started polling');
 }
 
-bot.onText(/\/go/, async msg => {
-    const chatId = msg.chat.id;
-    console.log('message:', msg);
+bot.onText(/\/go/, async mainMenuChoice => {
+    const chatId = mainMenuChoice.chat.id;
+    console.log('message:', mainMenuChoice);
     console.log('chatId:', chatId);
 
     bot.sendMessage(chatId, 'What do you want?', {
@@ -32,12 +32,12 @@ bot.onText(/\/go/, async msg => {
         },
     });
 
-    bot.once('message', handleMenuChioce);
+    bot.once('message', handleMenuChoice);
 });
 
-async function handleMenuChioce(msg) {
-    const chatId = msg.chat.id;
-    const text = msg.text;
+async function handleMenuChoice(mainMenuChoice) {
+    const chatId = mainMenuChoice.chat.id;
+    const text = mainMenuChoice.text;
     const pools = networks;
 
     if (text.toLowerCase() == 'add pools') {
@@ -50,11 +50,12 @@ async function handleMenuChioce(msg) {
             },
         });
 
-        bot.once('message', message => {
-            if (message.text in pools) {
-                addPool(message);
+        bot.once('message', selectChainMessage => {
+            if (pools.includes(selectChainMessage.text)) {
+                addPool(selectChainMessage);
             } else {
-                bot.sendMessage(chatId, 'Not a valid choice');
+                bot.sendMessage(chatId, `Not a valid choice: \nyour choice: ${selectChainMessage.text}\nnetworks: ${networks}`);
+                handleMenuChoice(mainMenuChoice);
             }
         });
     }
@@ -107,20 +108,25 @@ async function handleMenuChioce(msg) {
     }
 }
 
-async function addPool(msg) {
-    const chatId = msg.chat.id;
-    const chain = msg.text;
+async function addPool(addPoolMessage) {
+    const chatId = addPoolMessage.chat.id;
+    const chain = addPoolMessage.text;
 
     bot.sendMessage(chatId, 'Enter pool address');
     bot.once('message', async msg => {
-        const record = {
-            id: chatId.toString(),
-            chain: chain,
-            pool: msg.text,
-        };
-
-        await addPoolToDatabase(record);
-        bot.sendMessage(chatId, 'Pool added!');
+        if (!isValidEthereumAddress(msg.text)) {
+            bot.sendMessage(chatId, 'Not a valid address. Send the hex pool address, i.e. 0x1234...890');
+            addPool(addPoolMessage);
+        } else {
+            const record = {
+                id: chatId.toString(),
+                chain: chain,
+                pool: msg.text,
+            };
+    
+            await addPoolToDatabase(record);
+            bot.sendMessage(chatId, 'Pool added!');
+        }
     });
 }
 
@@ -149,3 +155,14 @@ async function removePool(msg) {
         bot.sendMessage(chatId, `Pool removed!`);
     });
 }
+
+function isValidEthereumAddress(address) {
+    // Remove 0x prefix if present
+    if (address.startsWith("0x")) {
+      address = address.slice(2);
+    }
+  
+    // Check if the address is a 40-character hexadecimal string
+    const regex = /^[0-9a-fA-F]{40}$/;
+    return regex.test(address);
+  }

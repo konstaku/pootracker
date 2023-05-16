@@ -6,7 +6,7 @@ const uri =
 export const client = new MongoClient(uri);
 
 // Start database connection
-const database = client.db('juicy_pools');
+const database = client.db('juicy_pools_testing');
 const users = database.collection('users');
 
 export async function addPoolToDatabase(record) {
