@@ -7,8 +7,9 @@ import {
     retrievePoolsFromDatabase,
 } from './db.js';
 import { formatMessage } from './format.js';
+import { Pool } from './pool.js'
 
-const token = '6227440710:AAHX6WL8iob8IhCeL-7IiUJKS5GVl2Muow4';
+const token = '6272930700:AAHwYpqBoXPWpA_apNoBABptdQ-asNfLAQM';
 export const bot = new TelegramBot(token);
 
 if (bot.isPolling()) {
@@ -22,8 +23,6 @@ if (bot.isPolling()) {
 
 bot.onText(/\/go/, async mainMenuChoice => {
     const chatId = mainMenuChoice.chat.id;
-    console.log('message:', mainMenuChoice);
-    console.log('chatId:', chatId);
 
     bot.sendMessage(chatId, 'What do you want?', {
         reply_markup: {
@@ -51,14 +50,13 @@ async function handleMenuChoice(mainMenuChoice) {
             break;
         default:
             bot.sendMessage(chatId, 'Not a valid choice, try again');
-            handleMenuChoice(mainMenuChoice);
     }
 }
 
 async function addPoolsHandler(mainMenuChoice) {
     const chatId = mainMenuChoice.chat.id;
 
-    bot.sendMessage(chatId, 'Pick a chain', {
+    bot.sendMessage(chatId, 'Pick a chain or /cancel to go to main menu', {
         reply_markup: {
             keyboard: [networks],
             one_time_keyboard: true,
@@ -66,6 +64,15 @@ async function addPoolsHandler(mainMenuChoice) {
     });
 
     bot.once('message', selectChainMessage => {
+        if (selectChainMessage.text === '/cancel') {
+            bot.sendMessage(chatId, 'Operation cancelled!', {
+                reply_markup: {
+                    remove_keyboard: true,
+                }
+            });
+            return;
+        }
+
         if (networks.includes(selectChainMessage.text)) {
             addPool(selectChainMessage);
         } else {
@@ -140,12 +147,24 @@ async function addPool(addPoolMessage) {
     const chatId = addPoolMessage.chat.id;
     const chain = addPoolMessage.text;
 
-    bot.sendMessage(chatId, 'Enter pool address');
+    bot.sendMessage(chatId, 'Enter pool address or /cancel to go back to main menu');
+
     bot.once('message', async selectAddressMessage => {
+        if (selectAddressMessage.text === '/cancel') {
+            bot.sendMessage(chatId, 'Operation cancelled!', {
+                reply_markup: {
+                    remove_keyboard: true,
+                }
+            });
+            return;
+        }
         if (!isValidEthereumAddress(selectAddressMessage.text)) {
             bot.sendMessage(chatId, 'Not a valid address. Send the hex pool address, i.e. 0x1234...890');
             addPool(addPoolMessage);
         } else {
+            const pool = new Pool(chain, selectAddressMessage.text);
+            pool.setInfo();
+            
             const record = {
                 id: chatId.toString(),
                 chain: chain,
