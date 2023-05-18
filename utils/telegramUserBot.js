@@ -9,7 +9,10 @@ import {
 import { formatMessage } from './format.js';
 import { Pool } from './pool.js'
 
-const token = '6272930700:AAHwYpqBoXPWpA_apNoBABptdQ-asNfLAQM';
+require('dotenv').config();
+
+const token = process.env.TELEGRAM_BOT_TOKEN;
+
 export const bot = new TelegramBot(token);
 
 if (bot.isPolling()) {
