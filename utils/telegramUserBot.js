@@ -9,7 +9,8 @@ import {
 import { formatMessage } from './format.js';
 import { Pool } from './pool.js'
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 
