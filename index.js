@@ -14,6 +14,8 @@ async function main() {
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);
         });
+        // Set webhook
+        await bot.setWebHook('https://poo-tracker.onrender.com:443/webhook');
         // Handle webhook request
         app.post('/webhook', (req, res) => {
             const { message } = req;
