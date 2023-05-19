@@ -8,18 +8,11 @@ import {
 } from './db.js';
 import { formatMessage } from './format.js';
 import { Pool } from './pool.js';
-import { app } from './../index.js';
 
 const token = '6227440710:AAHX6WL8iob8IhCeL-7IiUJKS5GVl2Muow4';
 export const bot = new TelegramBot(token);
 
 bot.setWebHook('https://poo-tracker.onrender.com:443/webhook');
-app.post('/webhook', (req, res) => {
-    const { message } = req;
-    // handleRequest(message);
-    console.log('Message:', message);
-    res.sendStatus(200);
-});
 
 // if (bot.isPolling()) {
 //     console.log('Bot is polling');
