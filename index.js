@@ -6,6 +6,8 @@ import { bot } from './utils/telegramUserBot.js';
 const app = express();
 const PORT = process.env.PORT || 3030;
 
+app.use(express.json());
+
 async function main() {
     try {
         // Start server
