@@ -3,7 +3,7 @@ import express from 'express';
 import { client } from './utils/db.js';
 import { bot } from './utils/telegramUserBot.js';
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 3030;
 
 app.use(express.json());
