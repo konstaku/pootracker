@@ -20,7 +20,7 @@ async function main() {
         app.post('/webhook', (req, res) => {
             const { message } = req;
             // handleRequest(message);
-            console.log('Message:', message);
+            console.dir('Message:', message);
             res.sendStatus(200);
         });
     } catch (err) {
