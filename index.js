@@ -23,8 +23,8 @@ async function main() {
         // Handle webhook request
         app.use(express.json());
         app.post('/webhook', (req, res) => {
-            const { message } = req;
-            console.log('Message:', message);
+            const { body } = req;
+            console.log('Message:', body);
             res.sendStatus(200);
         });
     } catch (err) {
