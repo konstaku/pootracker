@@ -18,9 +18,9 @@ async function main() {
         await bot.setWebHook('https://poo-tracker-test.onrender.com:443/webhook');
         // Handle webhook request
         app.post('/webhook', (req, res) => {
-            const { message } = req;
+            // const { message } = req;
             // handleRequest(message);
-            console.dir('Message:', message);
+            console.dir('Message:', req);
             res.sendStatus(200);
         });
     } catch (err) {
