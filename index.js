@@ -20,6 +20,10 @@ async function main() {
         const bot = new TelegramBot(token);
         // Set webhook
         await bot.setWebHook('https://poo-tracker-test.onrender.com:443/webhook');
+        bot.on('message', message => {
+            const chatId = message.chat.id;
+            bot.sendMessage(chatId, 'Message recieved!');
+        });
         // Handle webhook request
         app.use(express.json());
         app.post('/webhook', (req, res) => {
