@@ -9,8 +9,6 @@ import TelegramBot from 'node-telegram-bot-api';
 export const app = express();
 const PORT = process.env.PORT || 3030;
 
-app.use(express.json());
-
 async function main() {
     try {
         // Start server
@@ -23,6 +21,7 @@ async function main() {
         // Set webhook
         await bot.setWebHook('https://poo-tracker-test.onrender.com:443/webhook');
         // Handle webhook request
+        app.use(express.json());
         app.post('/webhook', (req, res) => {
             const { message } = req;
             console.log('Message:', message);
