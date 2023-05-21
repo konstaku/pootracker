@@ -1,4 +1,20 @@
 'use strict';
+// 
+// 
+// 
+// 
+// 
+// 
+// This is the old version that works with long polling.
+// Newer version will have updasted logic and work with webhooks
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+
 import TelegramBot from 'node-telegram-bot-api';
 import networks from './../data/networks.json' assert { type: 'json' };
 import {
