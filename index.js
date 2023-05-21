@@ -21,7 +21,7 @@ async function main() {
         app.post('/webhook', (req, res) => {
             const { body } = req;
             console.log('BODY:', body);
-            bot.sendMessage(body.chat.id, body);
+            // bot.sendMessage(body.chat.id, body);
             res.sendStatus(200);
         });
     } catch (err) {
