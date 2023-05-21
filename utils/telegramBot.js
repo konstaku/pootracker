@@ -6,7 +6,6 @@ export const bot = new TelegramBot(token);
 
 await bot.setWebHook('https://poo-tracker-test.onrender.com:443/webhook');
 
-app.use(express.json());
 app.post('/webhook', (req, res) => {
     const { body } = req;
     bot.sendMessage(body.chat.id, body);
