@@ -1,8 +1,9 @@
 'use strict';
 import express from 'express';
-import { bot } from './utils/telegramBot.js';
-
 export const app = express();
+
+import * as telegramBot from './utils/telegramBot.js';
+
 const PORT = process.env.PORT || 3030;
 
 async function main() {
