@@ -43,6 +43,9 @@ export class Dialogue {
 
     handleMainMenuChoice(mainMenuChoice) {
         switch (mainMenuChoice.text.toLowerCase()) {
+        case '/go':
+            backToMainMenu(mainMenuChoice);
+            break;
         case 'add pools':
             bot.sendMessage(this.chatId, 'You selected to add pools');
             break;
@@ -55,5 +58,11 @@ export class Dialogue {
         default:
             bot.sendMessage(this.chatId, 'Select something normal');
         }
+    }
+
+    backtoMainMenu(backToMenuMessage) {
+        this.state = 'idle';
+        bot.sendMessage(this.chatId, 'Going bsck to main menu...');
+        this.showMainMenu();
     }
 }

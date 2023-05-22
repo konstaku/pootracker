@@ -34,12 +34,11 @@ async function main() {
                 bot.sendMessage(dialogue.chatId, 'New dialogue created!');
             } else {
                 dialogue = dialogues.find(dialogue => dialogue.chatId === message.chat.id);
-                bot.sendMessage(dialogue.chatId, 'Dialogue found!');
             }
 
             dialogue.processMessage(message);
 
-            bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.chatId}\nState: ${dialogue.state}`);
+            bot.sendMessage(message.chat.id, `State: ${dialogue.state}`);
             res.sendStatus(200);
         });
     } catch (err) {
