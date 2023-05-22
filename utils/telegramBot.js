@@ -59,10 +59,8 @@ export class Dialogue {
         }
     }
 
-    backtoMainMenu() {
-        bot.sendMessage(this.chatId, 'Inside backtoMainMenu function, switcung state to idle');
+    backToMainMenu() {
         this.state = 'idle';
-        bot.sendMessage(this.chatId, 'Going back to main menu...');
         this.showMainMenu({ text: '/go' });
     }
 }
