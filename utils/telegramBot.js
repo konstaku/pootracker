@@ -17,6 +17,7 @@ export class Dialogue {
                 } else {
                     bot.sendMessage(this.chatId, 'Type /go to see main menu');
                 }
+                break;
             default:
                 bot.sendMessage(this.chatId, 'Nothing here yet...');
             } 
