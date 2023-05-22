@@ -28,6 +28,7 @@ async function main() {
 
             if (!dialogues.some(dialogue => dialogue.id === message.chat.id)) {
                 dialogue = new Dialogue(message);
+                dialogues.push(dialogue);
                 bot.sendMessage(dialogue.chatId, 'New dialogue created!');
             } else {
                 dialogue = dialogues.find(dialogue => dialogue.id === message.chat.id);
