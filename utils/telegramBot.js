@@ -8,8 +8,6 @@ export class Dialogue {
 
     processMessage(message) {
         try {
-            const command = message.text;
-
             switch(this.state) {
             case 'idle':
                 this.showMainMenu(message);
@@ -62,7 +60,7 @@ export class Dialogue {
 
     backtoMainMenu(backToMenuMessage) {
         this.state = 'idle';
-        bot.sendMessage(this.chatId, 'Going bsck to main menu...');
-        this.showMainMenu();
+        bot.sendMessage(this.chatId, 'Going back to main menu...');
+        this.showMainMenu(backToMenuMessage);
     }
 }
