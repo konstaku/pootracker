@@ -42,7 +42,7 @@ export class Dialogue {
     }
 
     handleMainMenuChoice(mainMenuChoice) {
-        switch (mainMenuChoice.text.toLowerCase) {
+        switch (mainMenuChoice.text.toLowerCase()) {
         case 'add pools':
             bot.sendMessage(this.chatId, 'You selected to add pools');
             break;
