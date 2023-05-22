@@ -1,8 +1,5 @@
 'use strict';
-import { client } from "./../index.js";
-
-const database = client.db('juicy_pools_testing');
-const users = database.collection('users');
+import { users } from "./../index.js";
 
 export async function addPoolToDatabase(record) {
     try {

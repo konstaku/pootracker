@@ -10,7 +10,10 @@ export const bot = new TelegramBot(token);
 
 const PORT = process.env.PORT || 3030;
 const app = express();
+
 export const client = new MongoClient(uri);
+export const database = client.db('juicy_pools_testing');
+export const users = database.collection('users');
 
 async function main() {
     const dialogues = [];
