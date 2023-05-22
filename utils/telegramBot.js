@@ -1,4 +1,5 @@
 import { bot } from './../index.js';
+import networks from './../data/networks.json' assert { type: 'json' };
 
 export class Dialogue {
     constructor(message) {
@@ -8,16 +9,21 @@ export class Dialogue {
 
     processMessage(message) {
         try {
-            switch(this.state) {
-            case 'idle':
-                this.showMainMenu(message);
-                break;
-            case 'onMainMenu':
-                this.handleMainMenuChoice(message);
-                break;
-            default:
-                bot.sendMessage(this.chatId, 'Nothing here yet...');
-            } 
+            if (message.text === '/go') {
+                this.backToMainMenu(message);
+                return;
+            }
+
+            switch (this.state) {
+                case 'idle':
+                    this.showMainMenu(message);
+                    break;
+                case 'onMainMenu':
+                    this.handleMainMenuChoice(message);
+                    break;
+                default:
+                    bot.sendMessage(this.chatId, 'Nothing here yet...');
+            }
         } catch (error) {
             console.log('Error processing message!', error);
         }
@@ -31,7 +37,11 @@ export class Dialogue {
 
         bot.sendMessage(this.chatId, 'What do you want?', {
             reply_markup: {
-                keyboard: [['Add pools'], ['Remove pools'], ['View pool stats']],
+                keyboard: [
+                    ['Add pools'],
+                    ['Remove pools'],
+                    ['View pool stats'],
+                ],
                 one_time_keyboard: true,
             },
         });
@@ -41,26 +51,32 @@ export class Dialogue {
 
     handleMainMenuChoice(mainMenuChoice) {
         switch (mainMenuChoice.text.toLowerCase()) {
-        case '/go':
-            bot.sendMessage(this.chatId, 'You selected to go back to main menu..');
-            this.backToMainMenu();
-            break;
-        case 'add pools':
-            bot.sendMessage(this.chatId, 'You selected to add pools');
-            break;
-        case 'remove pools':
-            bot.sendMessage(this.chatId, 'You selected to remove pools');
-            break;
-        case 'view pool stats':
-            bot.sendMessage(this.chatId, 'You selected to view pool stats');
-            break;
-        default:
-            bot.sendMessage(this.chatId, 'Select something normal');
+            case 'add pools':
+                bot.sendMessage(this.chatId, 'You selected to add pools');
+                this.showAddPoolMenu();
+                break;
+            case 'remove pools':
+                bot.sendMessage(this.chatId, 'You selected to remove pools');
+                break;
+            case 'view pool stats':
+                bot.sendMessage(this.chatId, 'You selected to view pool stats');
+                break;
+            default:
+                bot.sendMessage(this.chatId, 'Select something normal');
         }
     }
 
-    backToMainMenu() {
+    backToMainMenu(backToMenuMessage) {
         this.state = 'idle';
-        this.showMainMenu({ text: '/go' });
+        this.showMainMenu(backToMenuMessage);
+    }
+
+    showAddPoolMenu() {
+        this.state = 'addPoolMenu';
+
+        bot.sendMessage(this.chatId, 'Select a blockchain to add pool', {
+            keyboard: networks,
+            one_time_keyboard: true,
+        });
     }
 }
