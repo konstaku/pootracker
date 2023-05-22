@@ -22,16 +22,17 @@ async function main() {
         await bot.setWebHook('https://poo-tracker-test.onrender.com:443/webhook');
         // Handle webhook
         app.post('/webhook', (req, res) => {
-            const { body } = req;
-            const message = body.message;
+            // const { body } = req;
+            const message = req.body.message;
             let dialogue;
 
             if (!dialogues.some(dialogue => dialogue.id === message.chat.id)) {
                 dialogue = new Dialogue(message);
+                bot.sendMessage(dialogue.chatId, 'New dialogue created!');
             } else {
                 dialogue = dialogues.find(dialogue => dialogue.id === message.chat.id);
+                bot.sendMessage(dialogue.chatId, 'Dialogue found!');
             }
-
 
             bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.chatId}\nStage: ${dialogue.currentStage}`);
             res.sendStatus(200);
