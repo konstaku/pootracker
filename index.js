@@ -4,10 +4,10 @@ import TelegramBot from "node-telegram-bot-api";
 import { Dialogue } from './utils/telegramBot.js';
 
 const token = '6227440710:AAHX6WL8iob8IhCeL-7IiUJKS5GVl2Muow4';
-const bot = new TelegramBot(token);
+export const bot = new TelegramBot(token);
 
 const PORT = process.env.PORT || 3030;
-export const app = express();
+const app = express();
 app.use(express.json());
 
 const dialogues = [];
