@@ -1,6 +1,6 @@
 import { bot } from './../index.js';
 
-class Dialogue {
+export class Dialogue {
     constructor(message) {
         this.chatId = message.chat.id;
         this.currentStage = 'idle';
