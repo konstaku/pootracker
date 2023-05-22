@@ -33,7 +33,7 @@ async function main() {
             }
 
 
-            bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.id}\nStage: ${dialogue.currentStage}`);
+            bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.chatId}\nStage: ${dialogue.currentStage}`);
             res.sendStatus(200);
         });
     } catch (err) {
