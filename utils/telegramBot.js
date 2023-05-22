@@ -75,8 +75,10 @@ export class Dialogue {
         this.state = 'addPoolMenu';
 
         bot.sendMessage(this.chatId, 'Select a blockchain to add pool', {
-            keyboard: networks,
-            one_time_keyboard: true,
+            reply_markup: {
+                keyboard: [networks],
+                one_time_keyboard: true,
+            },
         });
     }
 }
