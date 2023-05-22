@@ -1,11 +1,6 @@
 'use strict';
-import { MongoClient } from 'mongodb';
+import { client } from "./../index.js";
 
-const uri =
-    'mongodb+srv://konstaku:TXcJq3R8GTYF83e7@juicy-pools.9xlzavj.mongodb.net/?retryWrites=true&w=majority';
-export const client = new MongoClient(uri);
-
-// Start database connection
 const database = client.db('juicy_pools_testing');
 const users = database.collection('users');
 

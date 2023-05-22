@@ -1,5 +1,10 @@
 import { bot } from './../index.js';
 import networks from './../data/networks.json' assert { type: 'json' };
+import {
+    addPoolToDatabase,
+    removePoolFromDatabase,
+    retrievePoolsFromDatabase,
+} from './db.js';
 
 export class Dialogue {
     constructor(message) {
@@ -57,6 +62,7 @@ export class Dialogue {
                 break;
             case 'remove pools':
                 bot.sendMessage(this.chatId, 'You selected to remove pools');
+                this.showRemovePoolsMenu();
                 break;
             case 'view pool stats':
                 bot.sendMessage(this.chatId, 'You selected to view pool stats');
@@ -79,6 +85,24 @@ export class Dialogue {
                 keyboard: [networks],
                 one_time_keyboard: true,
             },
+        });
+    }
+
+    async showRemovePoolsMenu() {
+        this.state = 'removePoolMenu';
+
+        const userPools = await retrievePoolsFromDatabase(
+            this.chatId.toString()
+        );
+        const nonEmptyPools = Object.keys(userPools).filter(
+            key => Array.isArray(userPools[key]) && userPools[key].length > 0
+        );
+
+        bot.sendMessage(this.chatId, 'Select blockchain:', {
+            reply_markup: {
+                keyboard: [nonEmptyPools],
+                one_time_keyboard: true,
+            }
         });
     }
 }
