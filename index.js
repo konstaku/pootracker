@@ -26,12 +26,12 @@ async function main() {
             const message = req.body.message;
             let dialogue;
 
-            if (!dialogues.some(dialogue => dialogue.id === message.chat.id)) {
+            if (!dialogues.some(dialogue => dialogue.chatId === message.chat.id)) {
                 dialogue = new Dialogue(message);
                 dialogues.push(dialogue);
                 bot.sendMessage(dialogue.chatId, 'New dialogue created!');
             } else {
-                dialogue = dialogues.find(dialogue => dialogue.id === message.chat.id);
+                dialogue = dialogues.find(dialogue => dialogue.chatId === message.chat.id);
                 bot.sendMessage(dialogue.chatId, 'Dialogue found!');
             }
 
