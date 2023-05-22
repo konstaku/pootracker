@@ -7,14 +7,19 @@ export class Dialogue {
     }
 
     processMessage(message) {
-        const command = message.text;
+        try {
+            const command = message.text;
 
-        switch(command) {
-        case '/go':
-            this.currentStage = 'onMainMenu';
-            bot.sendMessage(`Chat id #${this.chatId} is on ${this.currentStage} stage`);
-            break;
-            
-        } 
+            switch(command) {
+            case '/go':
+                this.currentStage = 'onMainMenu';
+                bot.sendMessage(`Chat id #${this.chatId} is on ${this.currentStage} stage`);
+                break;
+            default:
+                bot.sendMessage(`Command unknown!`);
+            } 
+        } catch (error) {
+            console.log('Error processing message!', error);
+        }
     }
 }
