@@ -13,7 +13,7 @@ export class Dialogue {
             switch(command) {
             case '/go':
                 this.currentStage = 'onMainMenu';
-                bot.sendMessage(`Chat id #${this.chatId} is on ${this.currentStage} stage`);
+                bot.sendMessage(this.chatId, `Chat id #${this.chatId} is on ${this.currentStage} stage`);
                 break;
             default:
                 bot.sendMessage(`Command unknown!`);
