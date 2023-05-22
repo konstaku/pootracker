@@ -38,7 +38,7 @@ async function main() {
                 bot.sendMessage(dialogue.chatId, 'Dialogue found!');
             }
 
-            processMessage(message);
+            dialogue.processMessage(message);
 
             bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.chatId}\nStage: ${dialogue.currentStage}`);
             res.sendStatus(200);
