@@ -39,7 +39,7 @@ async function main() {
 
             dialogue.processMessage(message);
 
-            bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.chatId}\nStage: ${dialogue.currentStage}`);
+            bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.chatId}\nState: ${dialogue.state}`);
             res.sendStatus(200);
         });
     } catch (err) {
