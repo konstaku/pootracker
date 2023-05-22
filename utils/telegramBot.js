@@ -42,6 +42,7 @@ export class Dialogue {
     handleMainMenuChoice(mainMenuChoice) {
         switch (mainMenuChoice.text.toLowerCase()) {
         case '/go':
+            bot.sendMessage(this.chatId, 'You selected to go back to main menu..');
             this.backToMainMenu(mainMenuChoice);
             break;
         case 'add pools':
@@ -59,6 +60,7 @@ export class Dialogue {
     }
 
     backtoMainMenu(backToMenuMessage) {
+        bot.sendMessage(this.chatId, 'Inside backtoMainMenu function, switcung state to idle');
         this.state = 'idle';
         bot.sendMessage(this.chatId, 'Going back to main menu...');
         this.showMainMenu(backToMenuMessage);
