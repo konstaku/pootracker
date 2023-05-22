@@ -43,7 +43,7 @@ export class Dialogue {
         switch (mainMenuChoice.text.toLowerCase()) {
         case '/go':
             bot.sendMessage(this.chatId, 'You selected to go back to main menu..');
-            this.backToMainMenu(mainMenuChoice);
+            this.backToMainMenu();
             break;
         case 'add pools':
             bot.sendMessage(this.chatId, 'You selected to add pools');
@@ -59,10 +59,10 @@ export class Dialogue {
         }
     }
 
-    backtoMainMenu(backToMenuMessage) {
+    backtoMainMenu() {
         bot.sendMessage(this.chatId, 'Inside backtoMainMenu function, switcung state to idle');
         this.state = 'idle';
         bot.sendMessage(this.chatId, 'Going back to main menu...');
-        this.showMainMenu(backToMenuMessage);
+        this.showMainMenu({ text: '/go' });
     }
 }
