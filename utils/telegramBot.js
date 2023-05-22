@@ -1,5 +1,6 @@
 import { bot } from './../index.js';
 import networks from './../data/networks.json' assert { type: 'json' };
+import { formatMessage } from './format.js';
 import {
     addPoolToDatabase,
     removePoolFromDatabase,
@@ -66,6 +67,7 @@ export class Dialogue {
                 break;
             case 'view pool stats':
                 bot.sendMessage(this.chatId, 'You selected to view pool stats');
+                this.viewPools();
                 break;
             default:
                 bot.sendMessage(this.chatId, 'Select something normal');
@@ -104,5 +106,31 @@ export class Dialogue {
                 one_time_keyboard: true,
             }
         });
+    }
+
+    async viewPools() {
+        this.state = 'viewPools';
+
+        const userPools = await retrievePoolsFromDatabase(this.chatId.toString());
+        const fetchData = Object.entries(userPools).flatMap(
+            ([chain, pools]) => {
+                return pools.map(pool => ({ chain, pool }));
+            }
+        );
+        const promises = fetchData.map(el =>
+            fetch(
+                `https://api.dexscreener.com/latest/dex/pairs/${el.chain}/${el.pool}`
+            )
+        );
+        const responses = await Promise.all(promises);
+        const data = await Promise.all(responses.map(el => el.json()));
+        const message = formatMessage(data);
+
+        bot.sendMessage(this.chatId, message, {
+            parse_mode: 'HTML',
+            disable_web_page_preview: true,
+        });
+
+        this.state = 'idle';
     }
 }
