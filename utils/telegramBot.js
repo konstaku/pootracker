@@ -10,7 +10,7 @@ export class Dialogue {
         try {
             const command = message.text;
 
-            switch(currentStage) {
+            switch(this.currentStage) {
             case 'idle':
                 if (command === '/go') {
                     this.mainMenuChoice(message);
