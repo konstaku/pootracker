@@ -6,12 +6,15 @@ export class Dialogue {
         this.currentStage = 'idle';
     }
 
-    processMessage(command) {
+    processMessage(message) {
+        const command = message.text;
+
         switch(command) {
         case '/go':
             this.currentStage = 'onMainMenu';
-            bot.sendMessage(this.chatId, 'You are on the main menu');
+            bot.sendMessage(`Chat id #${this.chatId} is on ${this.currentStage} stage`);
             break;
+            
         } 
     }
 }

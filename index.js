@@ -8,11 +8,14 @@ export const bot = new TelegramBot(token);
 
 const PORT = process.env.PORT || 3030;
 const app = express();
-app.use(express.json());
 
-const dialogues = [];
+
+
 
 async function main() {
+    const dialogues = [];
+    app.use(express.json());
+
     try {
         // Start server
         app.listen(PORT, () => {
@@ -34,6 +37,8 @@ async function main() {
                 dialogue = dialogues.find(dialogue => dialogue.chatId === message.chat.id);
                 bot.sendMessage(dialogue.chatId, 'Dialogue found!');
             }
+
+            processMessage(message);
 
             bot.sendMessage(message.chat.id, `Dialogue: ${dialogue.chatId}\nStage: ${dialogue.currentStage}`);
             res.sendStatus(200);
