@@ -1,4 +1,5 @@
 import { bot } from './../index.js';
+import { Pool } from './pool.js';
 import networks from './../data/networks.json' assert { type: 'json' };
 import { formatMessage } from './format.js';
 import {
@@ -15,7 +16,11 @@ export class Dialogue {
 
     processMessage(message) {
         try {
-            if (message.text === '/go') {
+            if (message.text === '/go' || message.text === '/cancel') {
+                if (this.pool) {
+                    this.pool = null;
+                }
+
                 this.backToMainMenu(message);
                 return;
             }
@@ -27,6 +32,14 @@ export class Dialogue {
                 case 'onMainMenu':
                     this.handleMainMenuChoice(message);
                     break;
+                case 'addPoolMenu':
+                    this.selectChainToAddPool(message);
+                    break;
+                case 'selectChainToAddPool':
+                    this.enterAddressToAddPoolForSelectedChain(message);
+                    break;
+                case 'enterPoolAddressToAdd':
+                    this.addPoolForSelectedChain(message);
                 default:
                     bot.sendMessage(this.chatId, 'Nothing here yet...');
             }
@@ -90,6 +103,54 @@ export class Dialogue {
         });
     }
 
+    selectChainToAddPool() {
+        this.state = 'selectChainToAddPool';
+
+        bot.sendMessage(this.chatId, 'Pick a chain or /cancel to go to main menu', {
+            reply_markup: {
+                keyboard: [networks],
+                one_time_keyboard: true,
+            },
+        });
+    }
+
+    enterAddressToAddPoolForSelectedChain(selectedChainMesage) {
+        this.state = 'enterPoolAddressToAdd';
+
+        if (!networks.includes(selectedChain)) {
+            bot.sendMessage(this.chatId, 'Invalid chain, try again!');
+            return;
+        }
+
+        const selectedChain = selectedChainMesage.text;
+        this.pool = new Pool(selectedChain, null);
+
+        bot.sendMessage(this.chatId, 'Enter a hex pool address to add or /cancel to abort');
+    }
+
+    async addPoolForSelectedChain(addressToAdd) {
+        this.state = 'addingPoolToDatabase';
+
+        if (!this.pool) {
+            bot.sendMessage(this.chatId, 'Error: pool not created');
+        }
+
+        const address = addressToAdd.text;
+        this.pool.address = address;
+
+        const record = {
+            id: this.chatId.toString(),
+            chain: this.pool.chain,
+            address: this.pool.address,
+        }
+
+        await addPoolToDatabase(record);
+        
+        bot.sendMessage(this.chatId, 'Pool added successfully!');
+        this.pool = null;
+        this.state = 'idle';
+    }
+
     async showRemovePoolsMenu() {
         this.state = 'removePoolMenu';
 
@@ -104,14 +165,16 @@ export class Dialogue {
             reply_markup: {
                 keyboard: [nonEmptyPools],
                 one_time_keyboard: true,
-            }
+            },
         });
     }
 
     async viewPools() {
         this.state = 'viewPools';
 
-        const userPools = await retrievePoolsFromDatabase(this.chatId.toString());
+        const userPools = await retrievePoolsFromDatabase(
+            this.chatId.toString()
+        );
         const fetchData = Object.entries(userPools).flatMap(
             ([chain, pools]) => {
                 return pools.map(pool => ({ chain, pool }));

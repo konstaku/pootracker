@@ -1,5 +1,5 @@
 'use strict';
-import { users } from "./../index.js";
+import { users } from './../index.js';
 
 export async function addPoolToDatabase(record) {
     try {
