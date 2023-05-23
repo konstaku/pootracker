@@ -101,17 +101,8 @@ export class Dialogue {
                 one_time_keyboard: true,
             },
         });
-    }
 
-    selectChainToAddPool() {
         this.state = 'selectChainToAddPool';
-
-        bot.sendMessage(this.chatId, 'Pick a chain or /cancel to go to main menu', {
-            reply_markup: {
-                keyboard: [networks],
-                one_time_keyboard: true,
-            },
-        });
     }
 
     enterAddressToAddPoolForSelectedChain(selectedChainMesage) {
