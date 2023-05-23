@@ -116,13 +116,13 @@ export class Dialogue {
 
     enterAddressToAddPoolForSelectedChain(selectedChainMesage) {
         this.state = 'enterPoolAddressToAdd';
+        const selectedChain = selectedChainMesage.text;
 
         if (!networks.includes(selectedChain)) {
             bot.sendMessage(this.chatId, 'Invalid chain, try again!');
             return;
         }
 
-        const selectedChain = selectedChainMesage.text;
         this.pool = new Pool(selectedChain, null);
 
         bot.sendMessage(this.chatId, 'Enter a hex pool address to add or /cancel to abort');
@@ -145,7 +145,7 @@ export class Dialogue {
         }
 
         await addPoolToDatabase(record);
-        
+
         bot.sendMessage(this.chatId, 'Pool added successfully!');
         this.pool = null;
         this.state = 'idle';
