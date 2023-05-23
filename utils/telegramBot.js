@@ -141,7 +141,7 @@ export class Dialogue {
         const record = {
             id: this.chatId.toString(),
             chain: this.pool.chain,
-            address: this.pool.address,
+            address: address,
         }
 
         await addPoolToDatabase(record);
