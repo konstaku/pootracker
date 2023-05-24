@@ -143,7 +143,6 @@ export class Dialogue {
         bot.sendMessage(this.chatId, 'Pool added successfully!');
         console.log(this.chatId, `Added following record to database... id: ${record.id}, chain: ${record.chain}, address: ${record.address}`);
 
-        this.pool = null;
         this.state = 'idle';
     }
 
