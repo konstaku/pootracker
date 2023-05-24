@@ -39,7 +39,7 @@ export class Dialogue {
                     this.addPoolForSelectedChain(message);
                     break;
                 case 'selectChainToRemovePool':
-                    this.enterAddressToRemovePoolForSelectedChain(message);
+                    this.pickAddressToRemovePoolForSelectedChain(message);
                     break;
                 case 'pickPoolAddressToRemove':
                     this.removePoolForSelectedChain(message);
