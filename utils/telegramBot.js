@@ -133,7 +133,7 @@ export class Dialogue {
         const record = {
             id: this.chatId.toString(),
             chain: this.pool.chain,
-            address: address,
+            address: this.pool.address,
         }
 
         console.log(this.chatId, `Adding following record to database... id: ${record.id}, chain: ${record.chain}, address: ${record.address}`);
