@@ -136,7 +136,7 @@ export class Dialogue {
             address: address,
         }
 
-        console.log(this.chatId, 'Adding following record to database...' + record.toString());
+        console.log(this.chatId, 'Adding following record to database...' + record);
 
         await addPoolToDatabase(record);
 
