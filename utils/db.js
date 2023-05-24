@@ -34,6 +34,7 @@ export async function addPoolToDatabase(record) {
         else {
             console.log('record:', record);
             console.log('users:', users);
+            console.log(`*** Pushing ${pool} to ${chain} for ${id}`);
             const result = await users.updateOne(
                 { _id: id },
                 { $push: { [`pools.${chain}`]: pool } }
