@@ -178,7 +178,7 @@ export class Dialogue {
 
         bot.sendMessage(this.chatId, 'Pick a pool to remove:', {
             reply_markup: {
-                keyboard: [poolAddresses[chain]],
+                keyboard: [poolAddresses[selectedChain]],
                 one_time_keyboard: true,
             },
         });
