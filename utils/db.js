@@ -49,6 +49,12 @@ export async function addPoolToDatabase(record) {
 export async function removePoolFromDatabase(record) {
     const { id, chain, address } = record;
 
+    console.log(`
+        Removing pool for ${id}
+        on chain ${chain}
+        address ${address}
+    `);
+
     // Check if the element already exists
     const document = await users.findOne({ _id: id, [`pools.${chain}`]: address });
     // If not, return message
