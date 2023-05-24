@@ -38,6 +38,12 @@ export class Dialogue {
                 case 'enterPoolAddressToAdd':
                     this.addPoolForSelectedChain(message);
                     break;
+                case 'selectChainToRemovePool':
+                    this.enterAddressToRemovePoolForSelectedChain(message);
+                    break;
+                case 'pickPoolAddressToRemove':
+                    this.removePoolForSelectedChain(message);
+                    break;
                 default:
                     bot.sendMessage(this.chatId, 'Nothing here yet...');
             }
@@ -140,8 +146,6 @@ export class Dialogue {
     }
 
     async showRemovePoolsMenu() {
-        this.state = 'removePoolMenu';
-
         const userPools = await retrievePoolsFromDatabase(
             this.chatId.toString()
         );
@@ -157,6 +161,43 @@ export class Dialogue {
         });
 
         this.state = 'selectChainToRemovePool';
+    }
+
+    async pickAddressToRemovePoolForSelectedChain(selectedChainMesage) {
+        this.state = 'pickPoolAddressToRemove';
+        const selectedChain = selectedChainMesage.text;
+
+        this.pool = new Pool(selectedChain, null);
+
+        if (!networks.includes(selectedChain)) {
+            bot.sendMessage(this.chatId, 'Invalid chain, try again!');
+            return;
+        }
+
+        const poolAddresses = await retrievePoolsFromDatabase(chatId.toString());
+
+        bot.sendMessage(this.chatId, 'Pick a pool to remove:', {
+            reply_markup: {
+                keyboard: [poolAddresses[chain]],
+                one_time_keyboard: true,
+            },
+        });
+    }
+
+    async removePoolForSelectedChain(removePoolMessage) {
+        this.pool.address = removePoolMessage.text;
+
+        const record = {
+            id: this.chatId,
+            chain: this.pool.chain,
+            address: this.pool.address,
+        };
+
+        await removePoolFromDatabase(record);
+        bot.sendMessage(this.chatId, 'Pool removed!');
+
+        this.pool = null;
+        this.state = 'idle';
     }
 
     async viewPools() {
