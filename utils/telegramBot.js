@@ -32,9 +32,6 @@ export class Dialogue {
                 case 'onMainMenu':
                     this.handleMainMenuChoice(message);
                     break;
-                case 'addPoolMenu':
-                    this.selectChainToAddPool(message);
-                    break;
                 case 'selectChainToAddPool':
                     this.enterAddressToAddPoolForSelectedChain(message);
                     break;
@@ -94,8 +91,6 @@ export class Dialogue {
     }
 
     showAddPoolMenu() {
-        this.state = 'addPoolMenu';
-
         bot.sendMessage(this.chatId, 'Select a blockchain to add pool', {
             reply_markup: {
                 keyboard: [networks],
@@ -136,14 +131,12 @@ export class Dialogue {
             address: this.pool.address,
         }
 
-        console.log(this.chatId, `Adding following record to database... id: ${record.id}, chain: ${record.chain}, address: ${record.address}`);
-
         await addPoolToDatabase(record);
 
         bot.sendMessage(this.chatId, 'Pool added successfully!');
-        console.log(this.chatId, `Added following record to database... id: ${record.id}, chain: ${record.chain}, address: ${record.address}`);
 
         this.state = 'idle';
+        this.pool = null;
     }
 
     async showRemovePoolsMenu() {
@@ -162,6 +155,8 @@ export class Dialogue {
                 one_time_keyboard: true,
             },
         });
+
+        this.state = 'selectChainToRemovePool';
     }
 
     async viewPools() {
