@@ -38,7 +38,7 @@ export async function addPoolToDatabase(record) {
                 { _id: id },
                 { $push: { [`pools.${chain}`]: pool } }
             );
-            console.log(`Added ${result.modifiedCount} pool to ${chain}`);
+            console.log(`Added ${result.modifiedCount} pool ${pool} to ${chain}`);
         }
     } catch (e) {
         console.log('Error adding pool!', e);

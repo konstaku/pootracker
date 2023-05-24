@@ -40,6 +40,7 @@ export class Dialogue {
                     break;
                 case 'enterPoolAddressToAdd':
                     this.addPoolForSelectedChain(message);
+                    break;
                 default:
                     bot.sendMessage(this.chatId, 'Nothing here yet...');
             }
@@ -135,7 +136,7 @@ export class Dialogue {
             address: address,
         }
 
-        console.log(this.chatId, record);
+        console.log(this.chatId, 'Adding following record to database...' + record.toString());
 
         await addPoolToDatabase(record);
 
