@@ -136,11 +136,13 @@ export class Dialogue {
             address: address,
         }
 
-        console.log(this.chatId, 'Adding following record to database...' + record);
+        console.log(this.chatId, `Adding following record to database... id: ${record.id}, chain: ${record.chain}, address: ${record.address}`);
 
         await addPoolToDatabase(record);
 
         bot.sendMessage(this.chatId, 'Pool added successfully!');
+        console.log(this.chatId, `Added following record to database... id: ${record.id}, chain: ${record.chain}, address: ${record.address}`);
+
         this.pool = null;
         this.state = 'idle';
     }
