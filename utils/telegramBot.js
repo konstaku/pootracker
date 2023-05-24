@@ -188,7 +188,7 @@ export class Dialogue {
         this.pool.address = removePoolMessage.text;
 
         const record = {
-            id: this.chatId,
+            id: this.chatId.toString(),
             chain: this.pool.chain,
             address: this.pool.address,
         };
