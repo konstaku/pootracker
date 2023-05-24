@@ -135,6 +135,8 @@ export class Dialogue {
             address: address,
         }
 
+        console.log(this.chatId, record);
+
         await addPoolToDatabase(record);
 
         bot.sendMessage(this.chatId, 'Pool added successfully!');
