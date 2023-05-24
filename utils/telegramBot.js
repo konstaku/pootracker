@@ -174,7 +174,7 @@ export class Dialogue {
             return;
         }
 
-        const poolAddresses = await retrievePoolsFromDatabase(chatId.toString());
+        const poolAddresses = await retrievePoolsFromDatabase(this.chatId.toString());
 
         bot.sendMessage(this.chatId, 'Pick a pool to remove:', {
             reply_markup: {
