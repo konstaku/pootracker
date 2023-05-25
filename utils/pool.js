@@ -3,6 +3,7 @@ export class Pool {
         this.chain = chain;
         this.address = address;
     }
+    
     async setInfo() {
         const response = await fetch(`https://api.dexscreener.com/latest/dex/pairs/${this.chain}/${this.address}`);
         const fetchedData = await response.json();

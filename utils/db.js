@@ -1,17 +1,9 @@
 'use strict';
-import { MongoClient } from 'mongodb';
-
-const uri =
-    'mongodb+srv://konstaku:TXcJq3R8GTYF83e7@juicy-pools.9xlzavj.mongodb.net/?retryWrites=true&w=majority';
-export const client = new MongoClient(uri);
-
-// Start database connection
-const database = client.db('juicy_pools');
-const users = database.collection('users');
+import { users } from './../index.js';
 
 export async function addPoolToDatabase(record) {
     try {
-        const { id, chain, pool } = record;
+        const { id, chain, address } = record;
         // Check if user already exists
         const userExists = await users.findOne({ _id: id });
         if (!userExists) {
@@ -32,7 +24,7 @@ export async function addPoolToDatabase(record) {
         // Check if the element already exists
         const document = await users.findOne({
             _id: id,
-            [`pools.${chain}`]: pool,
+            [`pools.${chain}`]: address,
         });
         // If yes, return message
         if (document) {
@@ -42,11 +34,12 @@ export async function addPoolToDatabase(record) {
         else {
             console.log('record:', record);
             console.log('users:', users);
+            console.log(`*** Pushing ${address} to ${chain} for ${id}`);
             const result = await users.updateOne(
                 { _id: id },
-                { $push: { [`pools.${chain}`]: pool } }
+                { $push: { [`pools.${chain}`]: address } }
             );
-            console.log(`Added ${result.modifiedCount} pool to ${chain}`);
+            console.log(`Added ${result.modifiedCount} pool ${address} to ${chain}`);
         }
     } catch (e) {
         console.log('Error adding pool!', e);
@@ -54,10 +47,16 @@ export async function addPoolToDatabase(record) {
 }
 
 export async function removePoolFromDatabase(record) {
-    const { id, chain, pool } = record;
+    const { id, chain, address } = record;
+
+    console.log(`
+        Removing pool for ${id}
+        on chain ${chain}
+        address ${address}
+    `);
 
     // Check if the element already exists
-    const document = await users.findOne({ _id: id, [`pools.${chain}`]: pool });
+    const document = await users.findOne({ _id: id, [`pools.${chain}`]: address });
     // If not, return message
     if (!document) {
         console.log('No such pool!');
@@ -66,7 +65,7 @@ export async function removePoolFromDatabase(record) {
     else {
         const result = await users.updateOne(
             { _id: id },
-            { $pull: { [`pools.${chain}`]: pool } }
+            { $pull: { [`pools.${chain}`]: address } }
         );
         console.log(`Removed ${result.modifiedCount} pool from ${chain}`);
     }
