@@ -4,7 +4,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import { Dialogue } from './utils/telegramBot.js';
 import { MongoClient } from 'mongodb';
 
-const token = '6227440710:AAHX6WL8iob8IhCeL-7IiUJKS5GVl2Muow4';
+const token = process.env.TELEGRAM_BOT_TOKEN;
 const uri =
     'mongodb+srv://konstaku:TXcJq3R8GTYF83e7@juicy-pools.9xlzavj.mongodb.net/?retryWrites=true&w=majority';
 export const bot = new TelegramBot(token);
@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3030;
 const app = express();
 
 export const client = new MongoClient(uri);
-export const database = client.db('juicy_pools_testing');
+export const database = client.db('juicy_pools');
 export const users = database.collection('users');
 
 async function main() {
@@ -28,7 +28,7 @@ async function main() {
 
         // Run a bot
         await bot.setWebHook(
-            'https://poo-tracker-test.onrender.com:443/webhook'
+            'https://poo-tracker.onrender.com:443/webhook'
         );
         // Handle webhook
         app.post('/webhook', (req, res) => {
