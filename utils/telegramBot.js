@@ -211,6 +211,9 @@ export class Dialogue {
                 return pools.map(pool => ({ chain, pool }));
             }
         );
+        if (fetchData.length === 0) {
+            bot.sendMessage(this.chatId, 'You got no pools to show. Add pools first!');
+        }
         const promises = fetchData.map(el =>
             fetch(
                 `https://api.dexscreener.com/latest/dex/pairs/${el.chain}/${el.pool}`

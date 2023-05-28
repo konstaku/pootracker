@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3030;
 const app = express();
 
 export const client = new MongoClient(uri);
-export const database = client.db('juicy_pools_test');
+export const database = client.db('juicy_pools_testing');
 export const users = database.collection('users');
 
 async function main() {
