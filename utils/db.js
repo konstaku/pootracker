@@ -73,6 +73,8 @@ export async function removePoolFromDatabase(record) {
 
 export async function retrievePoolsFromDatabase(id) {
     // Retrieve all data for the user and return their pools
+    console.log('resding pools for id #' + id);
     const result = await users.findOne({ _id: id });
+    console.log('Pools read. Result:', result);
     return result.pools;
 }
