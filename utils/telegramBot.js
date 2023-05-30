@@ -133,7 +133,7 @@ export class Dialogue {
         
         if (!isValidEthereumAddress(address)) {
             bot.sendMessage(this.chatId, 'Not a valid ethereum address, enter the address in hex format');
-            return;
+            return this.enterAddressToAddPoolForSelectedChain({ text: this.pool.chain });
         }
 
         this.pool.address = address;
