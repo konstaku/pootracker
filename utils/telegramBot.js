@@ -2,6 +2,7 @@ import { bot } from './../index.js';
 import { Pool } from './pool.js';
 import networks from './../data/networks.json' assert { type: 'json' };
 import { formatMessage } from './format.js';
+import { isValidEthereumAddress } from './helpers.js';
 import {
     addPoolToDatabase,
     removePoolFromDatabase,
@@ -123,12 +124,18 @@ export class Dialogue {
 
     async addPoolForSelectedChain(addressToAdd) {
         this.state = 'addingPoolToDatabase';
+        const address = addressToAdd.text;
 
         if (!this.pool) {
             bot.sendMessage(this.chatId, 'Error: pool not created');
+            return;
+        }
+        
+        if (!isValidEthereumAddress(address)) {
+            bot.sendMessage(this.chatId, 'Not a valid ethereum address, enter the address in hex format');
+            return;
         }
 
-        const address = addressToAdd.text;
         this.pool.address = address;
 
         const record = {

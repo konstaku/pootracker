@@ -1,1 +1,7 @@
-["ethereum", "optimism", "polygon", "arbitrum", "bsc"]
+[
+    "ethereum",
+    "optimism",
+    "arbitrum",
+    "polygon",
+    "bsc"
+]
