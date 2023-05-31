@@ -223,7 +223,7 @@ export class Dialogue {
         }
         const promises = fetchData.map(el =>
             fetch(
-                `https://api.dexscreener.com/latest/dex/pairs/${el.chain}/${el.pool}`
+                `https://api.dexscreener.com/latest/dex/pairs/${el.chain}/${el.pool.address}`
             )
         );
         const responses = await Promise.all(promises);
