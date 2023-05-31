@@ -1,4 +1,4 @@
-import { queryList } from './../data/queryList.json';
+import { queryList } from './../data/queryList.json' assert { type: 'json' };
 
 export class Pool {
     constructor(chain, address) {
