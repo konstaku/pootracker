@@ -56,7 +56,7 @@ export async function removePoolFromDatabase(record) {
     `);
 
     // Check if the element already exists
-    const document = await users.findOne({ _id: id, [`pools.${chain}`]: {'address': address } });
+    const document = await users.findOne({ _id: id, [`pools.${chain}`]: {address: address } });
     // If not, return message
     if (!document) {
         console.log('No such pool!');
