@@ -65,7 +65,7 @@ export async function removePoolFromDatabase(record) {
     else {
         const result = await users.updateOne(
             { _id: id },
-            { $pull: { [`pools.${chain}`]: { 'address': address } } }
+            { $pull: { [`pools.${chain}`]: { address: address } } }
         );
         console.log(`Removed ${result.modifiedCount} pool from ${chain}`);
     }
