@@ -138,10 +138,13 @@ export class Dialogue {
 
         this.pool.address = address;
 
+        await this.pool.setInfo();
+
         const record = {
             id: this.chatId.toString(),
             chain: this.pool.chain,
             address: this.pool.address,
+            name: this.pool.name,
         }
 
         await addPoolToDatabase(record);
