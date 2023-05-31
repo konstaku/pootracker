@@ -14,8 +14,4 @@ export class Pool {
         this.url = fetchedData.pair.url;
         this.name = `${fetchedData.pair.baseToken.symbol}/${fetchedData.pair.quoteToken.symbol}`
     }
-
-    async setFee() {
-        const queryId = queryList[this.chain];
-    }
 }
