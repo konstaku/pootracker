@@ -1,3 +1,5 @@
+import { queryList } from './../data/queryList.json';
+
 export class Pool {
     constructor(chain, address) {
         this.chain = chain;
@@ -11,5 +13,9 @@ export class Pool {
         this.dex = fetchedData.pair.dexId;
         this.url = fetchedData.pair.url;
         this.name = `${fetchedData.pair.baseToken.symbol}/${fetchedData.pair.quoteToken.symbol}`
+    }
+
+    async setFee() {
+        const queryId = queryList[this.chain];
     }
 }

@@ -3,7 +3,7 @@ import { users } from './../index.js';
 
 export async function addPoolToDatabase(record) {
     try {
-        const { id, chain, address } = record;
+        const { id, name, chain, address } = record;
         // Check if user already exists
         const userExists = await users.findOne({ _id: id });
         if (!userExists) {
@@ -37,7 +37,7 @@ export async function addPoolToDatabase(record) {
             console.log(`*** Pushing ${address} to ${chain} for ${id}`);
             const result = await users.updateOne(
                 { _id: id },
-                { $push: { [`pools.${chain}`]: { 'address': address, 'fees': null } } }
+                { $push: { [`pools.${chain}`]: { 'address': address, 'name': name, 'fees': null } } }
             );
             console.log(`Added ${result.modifiedCount} pool ${address} to ${chain}`);
         }
