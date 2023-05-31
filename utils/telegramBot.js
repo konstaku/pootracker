@@ -215,7 +215,7 @@ export class Dialogue {
         );
         const fetchData = Object.entries(userPools).flatMap(
             ([chain, pools]) => {
-                return pools.map(pool => ({ chain, pool }));
+                return pools['address'].map(pool => ({ chain, pool }));
             }
         );
         if (fetchData.length === 0) {
