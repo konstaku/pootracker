@@ -17,11 +17,11 @@ export async function fetchPoolFees(pool) {
 
         console.log('Fetched data:', data);
 
-        const pool = data.result.rows.filter(el => el['address'] === address);
+        const fetchedPool = data.result.rows.filter(el => el['address'] === address);
 
         console.log(`Fetching pool fees for pool ${pool}`);
 
-        fees = pool[0].fees / 10000;
+        fees = fetchedPool[0].fees / 10000;
     } catch (error) {
         console.log('Error fetching fees for pool', error);
     }
