@@ -225,7 +225,13 @@ export class Dialogue {
             this.chatId.toString()
         );
 
-        await bot.sendMessage(this.chatId, `User pools: ${userPools.toString()}`);
+        let testMessage = '';
+        for (const pool of userPools) {
+            testMessage += pool;
+            testMessage += '\n';
+        }
+
+        bot.sendMessage(this.chatId, `User pools: ${testMessage}`);
 
         const fetchData = Object.entries(userPools).flatMap(
             ([chain, pools]) => {
