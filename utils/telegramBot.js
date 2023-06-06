@@ -145,6 +145,7 @@ export class Dialogue {
             chain: this.pool.chain,
             address: this.pool.address,
             name: this.pool.name,
+            fees: this.pool.fees,
         }
 
         await addPoolToDatabase(record);

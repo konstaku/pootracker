@@ -1,4 +1,4 @@
-import queryList from './../data/queryList.json' assert { type: 'json' };
+import { fetchPoolFees } from "./duneQueries.js";
 
 export class Pool {
     constructor(chain, address) {
@@ -12,6 +12,8 @@ export class Pool {
 
         this.dex = fetchedData.pair.dexId;
         this.url = fetchedData.pair.url;
-        this.name = `${fetchedData.pair.baseToken.symbol}/${fetchedData.pair.quoteToken.symbol}`
+        this.name = `${fetchedData.pair.baseToken.symbol}/${fetchedData.pair.quoteToken.symbol}`;
+
+        this.fees = await fetchPoolFees(this);
     }
 }
