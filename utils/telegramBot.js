@@ -214,9 +214,19 @@ export class Dialogue {
     async viewPools() {
         this.state = 'viewPools';
 
+        /*
+        I need to rewrite this function - the format function should receive the userpools list, 
+        not the raw fetched data. I need that because now i have the database as my primary source of info.
+        Maybe I should update the volume in db as well with each fetch.
+        */
+
+
         const userPools = await retrievePoolsFromDatabase(
             this.chatId.toString()
         );
+
+        bot.sendMessage(this.chatId, `User pools: ${userPools}`);
+
         const fetchData = Object.entries(userPools).flatMap(
             ([chain, pools]) => {
                 return pools.map(pool => ({ chain, pool }));

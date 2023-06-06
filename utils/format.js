@@ -1,25 +1,3 @@
-/*
-pools: {
-    {
-        ethereum: [
-            {
-                // Those fields are not supposed to change
-                address: '0x11950d141ecb863f01007add7d1a342041227b58',
-                name: 'ETH/USDC',
-                dex: 'uniswap',
-                fee: 0.3,
-            },
-            {
-                address: '0x99886a66926d6a6e9240a67225073926e5d0b02f',
-                name: 'PEPE/ETH',
-                dex: 'sushiswap',
-                fee: 1,
-            }
-        ]
-    }
-}
-*/
-
 export function formatMessage(data) {
     let message = '';
     let index = 1;
