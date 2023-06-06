@@ -226,7 +226,7 @@ export class Dialogue {
         );
 
         let testMessage = '';
-        for (const pool of userPools) {
+        for (const pool of Object.entries(userPools)) {
             testMessage += pool;
             testMessage += '\n';
         }
