@@ -10,7 +10,7 @@ export async function fetchPoolFees(pool) {
     let fees = 0;
 
     try {
-        console.log('Fetching data for pool', pool);
+        console.log('Fetching data for pool', pool, 'queryId =', queryId);
 
         const response = await fetch(`https://api.dune.com/api/v1/query/${queryId}/results?api_key=${DUNE_API_KEY}`);
         const data = await response.json();
@@ -21,9 +21,9 @@ export async function fetchPoolFees(pool) {
 
         console.log(`Fetching pool fees for pool ${pool}`);
 
-        fees = pool[0].fees;
+        fees = pool[0].fees / 10000;
     } catch (error) {
-        console.log(error);
+        console.log('Error fetching fees for pool', error);
     }
 
     return fees;
