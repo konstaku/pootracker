@@ -13,7 +13,7 @@ export async function fetchPoolFees(pool) {
         const response = await fetch(`https://api.dune.com/api/v1/query/${queryId}/results?api_key=${DUNE_API_KEY}`);
         const data = await response.json();
         const pool = data.result.rows.filter(el => el['address'] === address);
-        fees = pool.fees;
+        fees = pool[0].fees;
     } catch (error) {
         console.log(error);
     }
