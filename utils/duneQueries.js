@@ -12,7 +12,13 @@ export async function fetchPoolFees(pool) {
     try {
         const response = await fetch(`https://api.dune.com/api/v1/query/${queryId}/results?api_key=${DUNE_API_KEY}`);
         const data = await response.json();
+
+        console.log('Fetched data:', data);
+
         const pool = data.result.rows.filter(el => el['address'] === address);
+
+        console.log(`Fetching pool fees for pool ${pool}`);
+
         fees = pool[0].fees;
     } catch (error) {
         console.log(error);
