@@ -119,7 +119,10 @@ export class Dialogue {
 
         this.pool = new Pool(selectedChain, null);
 
-        bot.sendMessage(this.chatId, 'Enter a hex pool address to add or /cancel to abort');
+        bot.sendMessage(
+            this.chatId,
+            'Enter a hex pool address to add or /cancel to abort'
+        );
     }
 
     async addPoolForSelectedChain(addressToAdd) {
@@ -130,10 +133,15 @@ export class Dialogue {
             bot.sendMessage(this.chatId, 'Error: pool not created');
             return;
         }
-        
+
         if (!isValidEthereumAddress(address)) {
-            bot.sendMessage(this.chatId, 'Not a valid ethereum address, enter the address in hex format');
-            return this.enterAddressToAddPoolForSelectedChain({ text: this.pool.chain });
+            bot.sendMessage(
+                this.chatId,
+                'Not a valid ethereum address, enter the address in hex format'
+            );
+            return this.enterAddressToAddPoolForSelectedChain({
+                text: this.pool.chain,
+            });
         }
 
         this.pool.address = address;
@@ -146,7 +154,7 @@ export class Dialogue {
             address: this.pool.address,
             name: this.pool.name,
             fees: this.pool.fees,
-        }
+        };
 
         await addPoolToDatabase(record);
 
@@ -185,7 +193,9 @@ export class Dialogue {
             return;
         }
 
-        const poolAddresses = await retrievePoolsFromDatabase(this.chatId.toString());
+        const poolAddresses = await retrievePoolsFromDatabase(
+            this.chatId.toString()
+        );
 
         bot.sendMessage(this.chatId, 'Pick a pool to remove:', {
             reply_markup: {
@@ -220,7 +230,6 @@ export class Dialogue {
         Maybe I should update the volume in db as well with each fetch.
         */
 
-
         const userPools = await retrievePoolsFromDatabase(
             this.chatId.toString()
         );
@@ -233,13 +242,14 @@ export class Dialogue {
 
         bot.sendMessage(this.chatId, `User pools: ${testMessage}`);
 
-        const fetchData = Object.entries(userPools).flatMap(
-            ([chain, pools]) => {
-                return pools.map(pool => ({ chain, pool }));
-            }
+        const fetchData = Object.entries(userPools).flatMap(([chain, pools]) =>
+            pools.map(pool => ({ chain, pool }))
         );
         if (fetchData.length === 0) {
-            bot.sendMessage(this.chatId, 'You got no pools to show. Add pools first!');
+            bot.sendMessage(
+                this.chatId,
+                'You got no pools to show. Add pools first!'
+            );
         }
         const promises = fetchData.map(el =>
             fetch(
@@ -248,6 +258,11 @@ export class Dialogue {
         );
         const responses = await Promise.all(promises);
         const data = await Promise.all(responses.map(el => el.json()));
+
+        for (const entry of data) {
+            // Write fetched data (volume, TVL) to userPools object
+        }
+
         const message = formatMessage(data);
 
         bot.sendMessage(this.chatId, message, {
